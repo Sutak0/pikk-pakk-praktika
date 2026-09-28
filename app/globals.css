@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+/* ===== Design tokens ===== */
+@theme {
+  --color-sarga: #ffc20e;      /* figyelmeztető sárga (banner) */
+  --color-sarga-melys: #e0a800;
+  --color-tinta: #111111;      /* fő fekete */
+  --color-szen: #1a1a1a;       /* kártya háttér sötét */
+  --color-szen-2: #232323;
+  --color-narancs: #f07c1e;    /* meleg akcent (kabát) */
+  --color-kreta: #f6f4ef;      /* világos szekció háttér */
+  --color-kod: #6b6b6b;        /* halvány szöveg */
+
+  --font-display: "Anton", "Arial Narrow", sans-serif;
+  --font-body: "Barlow", system-ui, sans-serif;
+}
+
+/* ===== Alap ===== */
+html {
+  scroll-behavior: smooth;
+}
+body {
+  background: var(--color-kreta);
+  color: var(--color-tinta);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+::selection {
+  background: var(--color-sarga);
+  color: var(--color-tinta);
+}
+
+/* ===== Signature: figyelmeztető szalag ===== */
+.hazard {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--color-sarga) 0 24px,
+    var(--color-tinta) 24px 48px
+  );
+}
+.hazard-thin {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--color-sarga) 0 14px,
+    var(--color-tinta) 14px 28px
+  );
+}
+
+/* Kiemelt, döntött cím-alsóvonal */
+.marker-underline {
+  background: linear-gradient(var(--color-sarga), var(--color-sarga)) left bottom / 100% 0.32em no-repeat;
+  padding: 0 0.08em;
+}
+
+/* Finom "sietős" mozgásvonalak a bannerhez */
+@keyframes tick {
+  from { transform: translateY(4px); opacity: 0; }
+  to   { transform: translateY(0);   opacity: 1; }
+}
+.tick-in { animation: tick 0.45s ease both; }
+
+/* Scroll reveal alaphelyzet + megjelenés */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  will-change: opacity, transform;
+}
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Kártya emelkedés hoverre */
+.lift {
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.lift:hover {
+  transform: translateY(-6px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .tick-in { animation: none; }
+  .lift { transition: none; }
+  .lift:hover { transform: none; }
+}
